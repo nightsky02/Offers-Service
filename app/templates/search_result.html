@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search result ({{offers|length}})</title>
+    <style>
+        .tag_marker{
+            display: inline-block;
+            background-color: rgb(48, 48, 179);
+            color: white;
+            padding: 8px;
+            border-radius: 15px;
+        }
+        .tag_red {
+            background-color: #bb1d38;
+            color: #ffebf2;
+            font-family: bold;
+        }
+        .tag_blue{
+            background-color: blue;
+        }
+        .tag_vilolet{
+            background-color: violet;
+        }
+    </style>
+</head>
+<body>
+    {% if substr %}
+    <div class="tag_marker tag_red">substr={{substr}}</div>
+    {% endif %}
+
+    {% if offer_id %}
+    <div class="tag_marker tag_blue">offer_id={{offer_id}}</div>
+    {% endif %}
+
+    {% if seller_id %}
+    <div class="tag_marker tag_vilolet">seller_id={{seller_id}}</div>
+    {% endif %}
+
+    {% if seller_id %}
+    <h2>Specific Offers from Seller {{seller_id}}</h2>
+    {% endif %}
+
+    {% for offer in offers %}
+        <h3>{{offer.name}}</h3>
+        {% if not seller_id %}
+            <p>Seller id: {{offer.seller_id}}</p>
+        {% endif %}
+        <p>Offer id: {{offer.offer_id}}</p>
+        <p>Price: {{offer.price}}$</p>
+        
+        {% if offer.avaivable %}
+            <p>Amount: {{offer.quantity}}</p>
+        {% else %}
+            <p><b>Not available</b></p>
+        {% endif %}
+
+    {% else %}
+        <p>No offers found with your criteria.</p>
+    {% endfor %}
+</body>
+</html>
