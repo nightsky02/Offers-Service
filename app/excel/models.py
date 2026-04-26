@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 from typing import NamedTuple
 import decimal
 
@@ -8,6 +8,15 @@ class OfferDataModel(BaseModel):
     price: decimal.Decimal = Field(ge=0)
     quantity: int = Field(ge=0)
     avaivable: bool
+
+
+    @field_validator("price", mode="before")
+    @classmethod
+    def parse_price(cls, v: str) -> str:
+        clear_price: str = v
+        if isinstance(v, str):
+            clear_price = clear_price.replace(" ", "").replace(",", ".")
+        return clear_price
 
 
 class OfferDTO(OfferDataModel):

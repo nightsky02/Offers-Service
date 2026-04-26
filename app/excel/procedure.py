@@ -17,6 +17,18 @@ def contains_offer_by_id(offer_id: int, offers: list[OfferDataModel]) -> bool:
     return False
 
 
+def is_end_of_file(row: list) -> bool:
+    empty_columns = 0
+    for col_value in row:
+        if col_value is None:
+            empty_columns += 1
+        
+        if isinstance(col_value, str) and not len(col_value):
+            empty_columns += 1
+
+    return empty_columns >= len(row)
+
+
 def parse_file(file_object) -> OfferParsingResult:
 
     workbook = load_workbook(file_object)
@@ -30,9 +42,16 @@ def parse_file(file_object) -> OfferParsingResult:
         table_values = [c.value for c in row]
 
         if len(table_values) != 5: # 5 cells, check the rules of excel file
-            raise FileStructureError
+            raise FileStructureError("The wrong count of the cells")
 
         offer_id = table_values[0]
+
+        # if the row is fully empty, then consider it as the end of the document
+        if is_end_of_file(table_values):
+            break
+        elif offer_id is None: 
+            # if only offer id column is empty, then it's the wrong file structure
+            raise FileStructureError("No offer id for row")
         if contains_offer_by_id(offer_id, offers):
             raise UniqueOfferExpection(offer_id, table_values[1])
         

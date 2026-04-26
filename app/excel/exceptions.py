@@ -10,3 +10,6 @@ class UniqueOfferExpection(ExcelParsingError):
 
 class FileStructureError(ExcelParsingError):
     """Raises when the excel file contains the wrong count of cells"""
+
+    def __init__(self, message: str):
+        self.msg = message
