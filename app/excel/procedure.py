@@ -1,5 +1,5 @@
 from app.excel.models import OfferDataModel, WrongOfferModel, OfferParsingResult
-from app.excel.exceptions import UniqueOfferExpection, FileStructureError
+from app.excel.exceptions import UniqueOfferException, FileStructureError
 from openpyxl import load_workbook
 from pydantic import ValidationError
 
@@ -53,7 +53,7 @@ def parse_file(file_object) -> OfferParsingResult:
             # if only offer id column is empty, then it's the wrong file structure
             raise FileStructureError("No offer id for row")
         if contains_offer_by_id(offer_id, offers):
-            raise UniqueOfferExpection(offer_id, table_values[1])
+            raise UniqueOfferException(offer_id, table_values[1])
         
         try:
             offers.append(OfferDataModel(

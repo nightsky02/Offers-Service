@@ -2,7 +2,7 @@ from fastapi import FastAPI, UploadFile, Query, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from app.excel.procedure import parse_file
-from app.excel.exceptions import UniqueOfferExpection, FileStructureError
+from app.excel.exceptions import UniqueOfferException, FileStructureError
 from app.database import api
 from typing import Annotated
 from fastapi.templating import Jinja2Templates
@@ -40,7 +40,7 @@ def upload_excel_file(request: Request, file: UploadFile, user_id: int = Query(g
     
     try:
         result = parse_file(file.file)
-    except UniqueOfferExpection as err:
+    except UniqueOfferException as err:
         return {
             "msg" : "The offer with this id already exists in the file",
             "offer_id" : err.offer_id,
