@@ -21,7 +21,7 @@ This service processes excel files with information about offers and storage the
   - The deleted count
   - The offers which really have been pushed in the database
 ### Checking offers
-- Go to http://localhost:8000/offers. You can also open this endpoint in the `/docs` page, but directly is much more beautiful.
+- Go to `http://localhost:8000/offers`. You can also open this endpoint in the `/docs` page, but directly is much more beautiful.
 - Use the following query parameters to filter your results. You can also combine them:
   - **seller_id** - specify the seller id
   - **offer_id** - specify the offer id
@@ -29,14 +29,14 @@ This service processes excel files with information about offers and storage the
 - Examples:
   
   - `seller_id=3&offer_id=4` -> get the 4th offer from the 3th seller
-  - `substr=mouse` -> get all offers which contains `mouse` in their name
-  - `seller_id=4&substr=mouse` -> get offers from 4th seller, which contains `mouse`
+  - `substr=mouse` -> get all offers which contain `mouse` in their name
+  - `seller_id=4&substr=mouse` -> get offers from 4th seller, which contain `mouse`
   
 ## Excel file structure
 By default, each excel file must contain ONLY 5 cells in one row:
 1. offer_id - the id of the offer. Cannot be empty or negative.
 2. name - the title of the offer. Valid if length >=1.
-3. price - the price of the offer. Can be seperated by comma or dot
+3. price - the price of the offer. Can be seperated by comma or dot.
 4. quantity. Must be >= 0.
 5. avaivable - boolean value (0, or 1). If is set to 0, it will be deleted from database, or it will not be pushed in the database.
 
@@ -45,4 +45,4 @@ The first row of the document is considered as a "title row" - the row which con
 There are three excel files in the repository folder, which help to look at how the service behaves with different data:
 - data_duplicated - contains two offers with the same offer id. 
 - data_long - contains 99 different offers
-- data_with_empty-name - contains one offer with empty name.
+- data_with_empty-name - contains one offer with an empty name.
