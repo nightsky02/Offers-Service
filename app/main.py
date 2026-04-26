@@ -46,8 +46,11 @@ def upload_excel_file(request: Request, file: UploadFile, user_id: int = Query(g
             "offer_id" : err.offer_id,
             "offer_name" : err.offer_name
         }
-    except FileStructureError:
-        return {"msg" : "Invalid structure of the file. It must contain 5 cells"}
+    except FileStructureError as err:
+        return {
+            "error" : "file_structure_error",
+            "msg" : err.msg
+        }
     
     process_result = api.process_offers(user_id, result.correct_offers)
 
